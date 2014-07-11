@@ -3,7 +3,7 @@ class ShortUrl < ActiveRecord::Base
   before_save :prepend_http
 
   def shorten
-    ENV['BASE_URL'] + ENV['PORT'] + ENV['REDIRECT_PATH'] + encode_slug
+    ENV['BASE_URL'] + ENV['PORT'] + ENV['REDIRECT_PATH'] + "/" + encode_slug
   end
 
   def self.find_url(slug)
