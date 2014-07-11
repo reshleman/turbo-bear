@@ -5,7 +5,6 @@ class ShortUrlsController < ApplicationController
 
   def create
     @short_url = ShortUrl.create(short_url_params)
-    @short_url.slug = @short_url.encode_slug
 
     if @short_url.save
       redirect_to @short_url
@@ -16,7 +15,7 @@ class ShortUrlsController < ApplicationController
 
   def show
     short_url = ShortUrl.find(params[:id])
-    @redirect_url = create_redirect_url(short_url)
+    @redirect_url = short_url.shorten
   end
 
   private
@@ -25,13 +24,5 @@ class ShortUrlsController < ApplicationController
     params.
       require(:short_url).
       permit(:url)
-  end
-
-  def create_redirect_url(short_url)
-    protocol = request.protocol
-    hostname = request.host
-    port = ":#{request.port}" unless request.port == 80
-
-    "#{protocol}#{hostname}#{port}/go/#{short_url.slug}"
   end
 end

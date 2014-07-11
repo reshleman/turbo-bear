@@ -1,8 +1,7 @@
 class RedirectsController < ApplicationController
   def show
-    id = ShortUrl.decode_slug(params[:slug])
-    short_url = ShortUrl.find(id)
+    url = ShortUrl.find_url(params[:slug])
 
-    redirect_to short_url.redirect_url
+    redirect_to url
   end
 end
